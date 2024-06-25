@@ -1,0 +1,6 @@
+value1 = int(input("enter value 1 : "))
+value2 = int(input("enter value 2 : "))
+print("your answer in addition is", value1+value2)
+print("your answer in subtraction is ", value1-value2)
+print("your answer in multiplication is" ,value1*value2)
+print("your answer in division is" ,value1/value2)
