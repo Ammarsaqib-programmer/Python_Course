@@ -1,35 +1,42 @@
-from tkinter import *
-import wikipedia
+import time
+import pyautogui
+import tkinter as tk
+import os
 
-def on_press():
-    query = get_q.get()
+def screenshot():
     try:
-        summary = wikipedia.summary(query)
-        text.delete(1.0, END)
-        text.insert(END, summary)
-    except wikipedia.exceptions.DisambiguationError as e:
-        text.delete(1.0, END)
-        text.insert(END, f"Disambiguation error: {e.options}")
-    except wikipedia.exceptions.PageError:
-        text.delete(1.0, END)
-        text.insert(END, "Page not found.")
+        save_dir = 'D:/Python/screenshots data/'
+        if not os.path.exists(save_dir):
+            os.makedirs(save_dir)
 
-root = Tk()
-root.title("Wiki Search App")
-root.configure(bg='#ADD8E6')  
-frame = Frame(root, padx=10, pady=10, bg='#ADD8E6')  
-frame.pack(pady=10)
+        name = int(round(time.time() * 1000))
+        filepath = f"{save_dir}{name}.png"
 
-question = Label(frame, text="Question", bg='#e3cc8d', fg='#00008B', font=('Helvetica', 12, 'bold'))  
-question.grid(row=0, column=0, sticky=W, pady=5)
+        img = pyautogui.screenshot(filepath)
+        img.show()  
+        print(f"Screenshot saved at {filepath}")
+    except Exception as e:
+        print(f"Error: {e}")
 
-get_q = Entry(frame, width=40, bd=5, bg='#FFFFFF', fg='#00008B', font=('Helvetica', 12))  
-get_q.grid(row=0, column=1, pady=5)
+root = tk.Tk()
+root.title("Screenshot App")
+root.geometry("300x100")  
 
-submit = Button(frame, text="Search", command=on_press, bg='#86c4c2', fg='#FFFFFF', font=('Helvetica', 12, 'bold'))  
-submit.grid(row=0, column=2, padx=10, pady=5)
+frame = tk.Frame(root)
+frame.pack(pady=20)
 
-text = Text(root, wrap=WORD, padx=10, pady=10, width=60, height=20, bg='#FFFFFF', fg='#00008B', font=('Helvetica', 12))  
-text.pack(padx=10, pady=10)
+screenshot_button = tk.Button(
+    frame,
+    text="Take Screenshot",
+    command=screenshot
+)
+screenshot_button.pack(side=tk.LEFT, padx=10)
+
+quit_button = tk.Button(
+    frame,
+    text="QUIT",
+    command=root.destroy  
+)
+quit_button.pack(side=tk.LEFT, padx=10)
 
 root.mainloop()
